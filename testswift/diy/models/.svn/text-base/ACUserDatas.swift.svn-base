@@ -1,0 +1,300 @@
+//
+//  ACUserDatas.swift
+//  Diy
+//
+//  Created by Chen Andy on 15/9/15.
+//  Copyright (c) 2015年 陈海容. All rights reserved.
+//
+
+import UIKit
+import SwiftyJSON
+import ObjectMapper
+
+struct ACKey {
+    static let text     = "html"
+    static let src      = "src"
+    static let title    = "title"
+    static let icon     = "icon"
+    static let htmlContent = "htmlContent"
+}
+
+class ACHtmlContent : AModel {
+    class ACSource : AModel {
+        var type:ACWebAnalysis.ACRegexType?
+        var value:String?
+        var source:String?
+        
+        init(source:String, type:ACWebAnalysis.ACRegexType = ACWebAnalysis.ACRegexType.innerText) {
+            super.init()
+            self.source = source
+            self.type = type
+        }
+        
+        required init?(_ map: Map){ super.init(map) }
+        override func mapping(map: Map) {
+            super.mapping(map)
+            type            <-  map["type"]
+            value           <-  map["value"]
+            source          <-  map["source"] 
+        }
+    }
+
+    var html:ACSource?
+    var imageURL:ACSource?
+    var title:ACSource?
+    var timestamp:NSDate = NSDate()
+    
+    init(html:ACSource, imageURL url:ACSource) {
+        super.init()
+        self.html = html
+        self.imageURL = url
+        self.timestamp = NSDate()
+    }
+    
+    required init?(_ map: Map){ super.init(map)}
+    override func mapping(map: Map) {
+        super.mapping(map)
+        html            <-  map["html"]
+        imageURL        <-  map["imageURL"]
+        title           <-  map["title"]
+        timestamp       <-  map["timestamp"]
+    }
+}
+
+class ACItemDatas : AModel , ACAnalysisProtocol {
+    var icon:String = "" {
+        didSet {
+            delegate?.model(ACModelAction.update, key:ACKey.icon, value: icon)
+        }
+    }
+    
+    var subtitle:String?
+    
+    var title:String = "" {
+        didSet {
+            delegate?.model(ACModelAction.update, key:ACKey.title, value: title)
+        }
+    }
+    
+    var htmlContent:ACHtmlContent? {
+        didSet {
+            delegate?.model(ACModelAction.update, key:ACKey.htmlContent, value: htmlContent)
+        }
+    }
+    
+    var url:String = ""
+    
+    init(url:String, icon:String, title:String) {
+        super.init()
+        self.icon = icon
+        self.title = title
+        self.url = url
+    }
+    
+    func analysis(complated:((String?, String?) -> Void)?) {
+        if let web = self.htmlContent {
+            let regexs = ACWebAnalysis.ACRegexs(url: url)
+            
+            if let html = web.html {
+                if let regexText = ACWebAnalysis.ACRegex(key:ACKey.text, type: html.type!, regex: html.source!) {
+                    regexs.append(regexText)
+                }
+            }
+            
+            if let aimage = web.imageURL {
+                if let regexSrc = ACWebAnalysis.ACRegex(key: ACKey.src, type: aimage.type!,
+                    regex: aimage.source!) {
+                        regexs.append(regexSrc)
+                }
+            }
+            
+            ACWebAnalysis().analysis(regexs) { (result, error) -> Void in
+                let image = result?[ACKey.src]
+                let text = result?[ACKey.text]
+                complated?(text, image)
+            }
+        }
+    }
+    
+    func toUpdate() {
+        analysis { (text , image) -> Void in
+            self.htmlContent?.html?.value = text
+            self.htmlContent?.imageURL?.value = image
+            self.delegate?.model(ACModelAction.update, key:ACKey.htmlContent, value: self.htmlContent)
+        }
+    }
+    
+    required init?(_ map: Map){ super.init(map)}
+    override func mapping(map: Map) {
+        super.mapping(map)
+        url         <-  map["url"]
+        icon        <-  map["icon"]
+        title       <-  map["title"]
+        subtitle    <-  map["subtitle"]
+        htmlContent <-  map["htmlContent"]
+    }
+    
+    static func model(json: JSON?) -> AnyObject? {
+        if let item = json {
+            let url = item["url"].stringValue
+            let icon = item["icon"].stringValue
+            let title = item["title"].stringValue
+            
+            let _item:ACItemDatas = ACItemDatas(url: url, icon: icon, title: title)
+            
+            let tsource = item["analysis"]["text"]["regex"].stringValue
+            let _ = item["analysis"]["text"]["type"].intValue
+            
+            let isource = item["analysis"]["image"]["regex"].stringValue
+            let itype = item["analysis"]["image"]["type"].intValue
+            
+            let htmlContent =  ACHtmlContent(html: ACHtmlContent.ACSource(source: tsource),
+                imageURL: ACHtmlContent.ACSource(source: isource, type:itype==1 ? ACWebAnalysis.ACRegexType.background_image : ACWebAnalysis.ACRegexType.src))
+            
+            _item.htmlContent = htmlContent
+            return _item
+        } 
+        return nil
+    }
+}
+
+class ACPageDatas : AModel {
+    var style:Int = 0
+    var className:String {
+        var name:String
+        switch self.style {
+        case 0:
+            name = "Diy.ACSceneDirectController"
+        case 1:
+            name = "Diy.ACSceneListController"
+        case 2:
+            name = "Diy.ACSceneGrid3Controller"
+        case 3:
+            name = "Diy.ACSceneGrid2Controller"
+        default:
+            name = "Diy.ACSceneGrid1Controller"
+        }
+        return name
+    }
+    var icon:String = ""
+    var title:String = "" {
+        didSet {
+            delegate?.model(ACModelAction.update, key:ACKey.title, value: title)
+        }
+    }
+    var items:[ACItemDatas]?
+    
+    override init() {
+        super.init()
+    }
+    
+    init(style:Int, icon:String, title:String, items:[ACItemDatas]?) {
+        super.init()
+        self.style = style
+        self.icon = icon
+        self.title = title
+        self.items = items
+    }
+    
+    required init?(_ map: Map){
+        super.init(map)
+    }
+    override func mapping(map: Map) {
+        super.mapping(map)
+        style       <-  map["style"]
+        icon        <-  map["icon"]
+        title       <-  map["title"]
+        items       <-  map["items"]
+    }
+}
+
+class ACUserDatas: AModel {
+    class var shared: ACUserDatas {
+        dispatch_once(&Inner.token) {
+            Inner.instance = ACUserDatas()
+            Inner.instance?.loadData()
+        }
+        return Inner.instance!
+    }
+    private struct Inner {
+        static var instance: ACUserDatas?
+        static var token: dispatch_once_t = 0
+    }
+    
+    override func cacheKey() -> String? {
+        return "275704811"
+    }
+    
+    //模板类型
+    struct ACTemplate {
+        var type:Int = 0
+        
+        var name:String {
+            return "Diy.ACBotTabbarVController"
+        }
+        
+        init(type:Int) {
+            self.type = type
+        }
+    }
+    
+    var template:ACTemplate = ACTemplate(type: 0)
+    
+    override init() {
+        super.init()
+    }
+    
+    //模板数据
+    var items:[ACPageDatas]?
+    
+    func loadData() {
+        if let filePath = NSBundle.mainBundle().pathForResource("datas", ofType: "json") {
+            let datas = NSData(contentsOfFile: filePath)
+            let json = JSON(data: datas!, options: NSJSONReadingOptions.AllowFragments, error: nil)
+            
+            var pages:[ACPageDatas] = [ACPageDatas]()
+            
+            for page in json["pages"] {
+                let _pitem:ACPageDatas = ACPageDatas()
+                
+                _pitem.style = page.1["style"].intValue
+                _pitem.icon = page.1["icon"].stringValue
+                _pitem.title = page.1["title"].stringValue
+                _pitem.items = [ACItemDatas]()
+                
+                for item in page.1["items"] {
+                    let url = item.1["url"].stringValue
+                    let icon = item.1["icon"].stringValue
+                    let title = item.1["title"].stringValue
+                    let _item:ACItemDatas = ACItemDatas(url: url, icon: icon, title: title)
+                    
+                    let tsource = item.1["analysis"]["text"]["regex"].stringValue
+                    let _ = item.1["analysis"]["text"]["type"].intValue
+                    
+                    let isource = item.1["analysis"]["image"]["regex"].stringValue
+                    let itype = item.1["analysis"]["image"]["type"].intValue
+                    
+                    let htmlContent =  ACHtmlContent(html: ACHtmlContent.ACSource(source: tsource),
+                        imageURL: ACHtmlContent.ACSource(source: isource, type:itype==1 ? ACWebAnalysis.ACRegexType.background_image : ACWebAnalysis.ACRegexType.src))
+                    
+                    _item.htmlContent = htmlContent
+                    _pitem.items?.append(_item)
+                }
+                
+                pages.append(_pitem)
+            }
+            items = pages
+            
+        }
+    }
+
+    required init?(_ map: Map){
+        super.init(map)
+    }
+    
+    override func mapping(map: Map) {
+        super.mapping(map)
+        template.type       <-  map["type"]
+        items               <-  map["pages"]
+    }
+}

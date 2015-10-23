@@ -1,0 +1,23 @@
+//
+//  ACUserModel.swift
+//  Diy
+//
+//  Created by Chen Andy on 15/9/25.
+//  Copyright © 2015年 陈海容. All rights reserved.
+//
+
+import Foundation
+import ObjectMapper
+
+class ACUserModel: AModel {
+    var name:String?
+    var text:Int?
+    var age:Int?
+    
+    override func mapping(map: Map) {
+        super.mapping(map)
+        name    <-  map["name"]
+        text    <-  map["test"]
+        age     <-  map["age"]
+    }
+}

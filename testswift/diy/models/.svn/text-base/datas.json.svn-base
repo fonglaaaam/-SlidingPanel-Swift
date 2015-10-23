@@ -1,0 +1,46 @@
+{
+  "template": 0,
+  "pages": [
+    {
+      "style": 0,
+      "icon": "icon_menu_circletitle",
+      "title": "爱范二",
+      "items": [
+        {
+          "title": "爱范儿",
+          "url": "http://www.ifanr.com/",
+          "icon": "http://qiniu.ilovegame.net/gallery/mrwqpcsSzM4.png",
+          "analysis": {
+            "text": {
+              "regex": "//*[@id=\"post-569281\"]/div/h2/a",
+              "type": 2
+            },
+            "image": {
+              "regex": "//*[@id=\"post-569281\"]/div/a",
+              "type": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "style": 1,
+      "icon": "icon_menu_list",
+      "title": "列表",
+      "items": [  ]
+    },
+    {
+      "style": 2,
+      "icon": "icon_menu_grid",
+      "title": "九宫格",
+      "items": [  ]
+    },
+    {
+      "style": 3,
+      "icon": "icon_menu_photogrid",
+      "title": "游戏",
+      "items": [
+      ]
+    }
+  ]
+}
