@@ -14,12 +14,11 @@
 		20390C1D1BB3E98800C76C54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20390C1B1BB3E98800C76C54 /* LaunchScreen.storyboard */; };
 		20390C281BB3E98800C76C54 /* testswiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20390C271BB3E98800C76C54 /* testswiftTests.swift */; };
 		20390C331BB3E98800C76C54 /* testswiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20390C321BB3E98800C76C54 /* testswiftUITests.swift */; };
-		20390C411BB3EE0C00C76C54 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20390C401BB3EE0C00C76C54 /* SnapKit.framework */; settings = {ASSET_TAGS = (); }; };
-		20390C431BB3FCCF00C76C54 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20390C421BB3FCCF00C76C54 /* CollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		20390C451BB3FD0B00C76C54 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20390C441BB3FD0B00C76C54 /* DetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		20390C471BB4EECC00C76C54 /* 屏幕快照 2015-09-23 下午3.30.38.png in Resources */ = {isa = PBXBuildFile; fileRef = 20390C461BB4EECC00C76C54 /* 屏幕快照 2015-09-23 下午3.30.38.png */; settings = {ASSET_TAGS = (); }; };
-		2074A5351BCB99C1006EDE00 /* LeftRightMenuRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2074A5341BCB99C1006EDE00 /* LeftRightMenuRootViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		2074A5381BCB9A0B006EDE00 /* UIView+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2074A5371BCB9A0B006EDE00 /* UIView+Frame.swift */; settings = {ASSET_TAGS = (); }; };
+		20390C431BB3FCCF00C76C54 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20390C421BB3FCCF00C76C54 /* CollectionViewCell.swift */; };
+		20390C451BB3FD0B00C76C54 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20390C441BB3FD0B00C76C54 /* DetailViewController.swift */; };
+		20390C471BB4EECC00C76C54 /* 屏幕快照 2015-09-23 下午3.30.38.png in Resources */ = {isa = PBXBuildFile; fileRef = 20390C461BB4EECC00C76C54 /* 屏幕快照 2015-09-23 下午3.30.38.png */; };
+		2074A5351BCB99C1006EDE00 /* LeftRightMenuRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2074A5341BCB99C1006EDE00 /* LeftRightMenuRootViewController.swift */; };
+		2074A5381BCB9A0B006EDE00 /* UIView+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2074A5371BCB9A0B006EDE00 /* UIView+Frame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +52,6 @@
 		20390C2E1BB3E98800C76C54 /* testswiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testswiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		20390C321BB3E98800C76C54 /* testswiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testswiftUITests.swift; sourceTree = "<group>"; };
 		20390C341BB3E98800C76C54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		20390C401BB3EE0C00C76C54 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SnapKit.framework; sourceTree = "<group>"; };
 		20390C421BB3FCCF00C76C54 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		20390C441BB3FD0B00C76C54 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		20390C461BB4EECC00C76C54 /* 屏幕快照 2015-09-23 下午3.30.38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "屏幕快照 2015-09-23 下午3.30.38.png"; sourceTree = "<group>"; };
@@ -66,7 +64,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20390C411BB3EE0C00C76C54 /* SnapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,7 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				2074A5361BCB9A0B006EDE00 /* Extension */,
-				20390C401BB3EE0C00C76C54 /* SnapKit.framework */,
 				20390C121BB3E98800C76C54 /* AppDelegate.swift */,
 				20390C141BB3E98800C76C54 /* ViewController.swift */,
 				20390C441BB3FD0B00C76C54 /* DetailViewController.swift */,
@@ -227,13 +223,16 @@
 				TargetAttributes = {
 					20390C0E1BB3E98800C76C54 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0820;
 					};
 					20390C221BB3E98800C76C54 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0820;
 						TestTargetID = 20390C0E1BB3E98800C76C54;
 					};
 					20390C2D1BB3E98800C76C54 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0820;
 						TestTargetID = 20390C0E1BB3E98800C76C54;
 					};
 				};
@@ -444,6 +443,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dingzai.testswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -459,6 +459,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dingzai.testswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -470,6 +471,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dingzai.testswiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/testswift.app/testswift";
 			};
 			name = Debug;
@@ -482,6 +484,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dingzai.testswiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/testswift.app/testswift";
 			};
 			name = Release;
@@ -493,6 +496,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dingzai.testswiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = testswift;
 				USES_XCTRUNNER = YES;
 			};
@@ -505,6 +509,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dingzai.testswiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = testswift;
 				USES_XCTRUNNER = YES;
 			};

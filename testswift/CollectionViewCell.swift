@@ -23,13 +23,13 @@ class CollectionViewCell: UICollectionViewCell
         super.init(frame: frame)
         
         // Image view
-        self.imageView = UIImageView(frame: CGRectMake(0.0, 0.0, 90.0, 90.0))
+        self.imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 90.0, height: 90.0))
         self.contentView.addSubview(self.imageView!)
         
         // Text
-        self.textLabel = UILabel(frame: CGRectMake(0.0, 90.0, 95.0, 20.0))
-        self.textLabel?.textColor = UIColor.redColor();
-        self.textLabel?.textAlignment = NSTextAlignment.Center;
+        self.textLabel = UILabel(frame: CGRect(x: 0.0, y: 90.0, width: 95.0, height: 20.0))
+        self.textLabel?.textColor = UIColor.red;
+        self.textLabel?.textAlignment = NSTextAlignment.center;
         self.contentView.addSubview(self.textLabel!)
     }
 }

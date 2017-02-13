@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import SnapKit
+
+
 class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSource
 {
     var tableView   : UITableView?
@@ -17,46 +18,47 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     var centerNavController : UINavigationController!
     var secondNavController : UINavigationController!
     var thirdNavController : UINavigationController!
-    
+    var forthNavController : UINavigationController!
+
     var rootViewController: LeftRightMenuRootViewController!
 
-    
+     let buttons :Array = ["UISlider","UIWebView","UISegmentedControl","UISwitch","UITextField","UIScrollView","UISearchBar","UIPageControl","UIDatePicker","UIPickerView","UIProgressView","UITextView","UIToolbar","UIActionSheet","UIActivityIndicatorView","UICollectionView"]
     
     override func viewDidLoad()
     {
-        self.items = ["爱饭", "列表", "宫格", "果岭裙下转"]
-        self.view.backgroundColor = UIColor.whiteColor()
-        self.navigationController!.navigationBar.hidden = true
-        self.tableView = UITableView(frame:self.view.frame, style:UITableViewStyle.Plain)
+        self.items = ["UILable", "UIButton", "UIImageView", "UIView"]
+        self.view.backgroundColor = UIColor.white
+        self.navigationController!.navigationBar.isHidden = true
+        self.tableView = UITableView(frame:self.view.frame, style:UITableViewStyle.plain)
         self.tableView!.y = 120
         
         self.tableView!.delegate = self
         self.tableView!.dataSource = self
-        self.tableView!.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        self.tableView!.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         self.view.addSubview(self.tableView!)
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         rootViewController = appDelegate.rootLRMViewController
 
     }
     
     // UITableViewDataSource Methods
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return self.items!.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
-        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-        cell.textLabel?.text = self.items?.objectAtIndex(indexPath.row) as! String!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
+        cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+        cell.textLabel?.text = self.items?.object(at: indexPath.row) as! String!
         
         return cell
     }
     
     // UITableViewDelegate Methods
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
 //        self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
 //        
@@ -68,37 +70,37 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         {
         case 0:
             self.homePageClicked()
+            self.menuClicked()
             break
         case 1:
             self.thirdNavControllerClicked()
+            self.menuClicked()
             break
         case 2:
             self.secondNavControllerClicked()
+            self.menuClicked()
             break
         case 3:
-            self.aboutClicked()
-            break
-        case 4:
-            self.settingClicked()
+            self.forthNavControllerClicked()
             break
         default:
             break
         }
-        self.menuClicked()
+//        self.menuClicked()
     }
     
     //
     override func didReceiveMemoryWarning()
     {}
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         return 50
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
-        self.tableView!.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: false, scrollPosition: UITableViewScrollPosition.Top)
+        self.tableView!.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UITableViewScrollPosition.top)
     }
 
     func menuClicked()
@@ -114,19 +116,35 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         self.rootViewController.centerNavigationController = self.centerNavController
     }
     
-    func thirdNavControllerClicked()
-    {
-        self.rootViewController.centerNavigationController = self.thirdNavController
-    }
-    
     func secondNavControllerClicked()
     {
         self.rootViewController.centerNavigationController = self.secondNavController
     }
     
-    func aboutClicked()
+    func thirdNavControllerClicked()
     {
+        self.rootViewController.centerNavigationController = self.thirdNavController
+    }
+    
+    func forthNavControllerClicked()
+    {
+
         
+        let alert = UIAlertController(title: "PLZ Select one UIView", message:nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        for button:String in buttons {
+            alert.addAction(UIAlertAction.init(title: button, style: UIAlertActionStyle.default, handler: { (action) in
+                self.forthNavController.visibleViewController?.title = button
+                if let vc:DetailViewController = self.forthNavController.visibleViewController as? DetailViewController{
+                    if let view = vc.subView{
+                        view .removeFromSuperview()
+                    }
+                }
+                self.rootViewController.centerNavigationController = self.forthNavController
+                self.menuClicked()
+            }))
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     func settingClicked()
@@ -134,7 +152,6 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         
     }
 }
-
 
 
 

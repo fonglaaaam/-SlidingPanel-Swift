@@ -33,7 +33,7 @@ class LeftRightMenuRootViewController: UIViewController, UIGestureRecognizerDele
                 if (self.leftNavigationController.view.superview == nil)
                 {
                     self.addChildViewController(leftNavigationController)
-                    self.view.insertSubview(leftNavigationController.view, atIndex:0)
+                    self.view.insertSubview(leftNavigationController.view, at:0)
                 }
             }
         }
@@ -54,7 +54,7 @@ class LeftRightMenuRootViewController: UIViewController, UIGestureRecognizerDele
                 if (self.centerNavigationController.view.superview == nil)
                 {
                     self.addChildViewController(centerNavigationController)
-                    self.view.insertSubview(centerNavigationController.view, atIndex:1)
+                    self.view.insertSubview(centerNavigationController.view, at:1)
                 }
             }
         }
@@ -65,10 +65,10 @@ class LeftRightMenuRootViewController: UIViewController, UIGestureRecognizerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.blackColor()
-        tapBtn = UIButton(frame: UIScreen.mainScreen().bounds)
-        tapBtn.addTarget(self, action: "tapBtnClicked:", forControlEvents: UIControlEvents.TouchUpInside)
-        pan = UIPanGestureRecognizer(target: self, action: "pan:")
+        self.view.backgroundColor = UIColor.black
+        tapBtn = UIButton(frame: UIScreen.main.bounds)
+        tapBtn.addTarget(self, action: #selector(LeftRightMenuRootViewController.tapBtnClicked(_:)), for: UIControlEvents.touchUpInside)
+        pan = UIPanGestureRecognizer(target: self, action: #selector(LeftRightMenuRootViewController.pan(_:)))
         pan.delegate = self
     }
 
@@ -83,10 +83,10 @@ class LeftRightMenuRootViewController: UIViewController, UIGestureRecognizerDele
         centerNavigationController.view.removeGestureRecognizer(pan)
         
         var c = self.centerNavigationController.view.frame
-        let duration  = NSTimeInterval(c.origin.x / CenterViewOffset * 0.45)
+        let duration  = TimeInterval(c.origin.x / CenterViewOffset * 0.45)
         
         c.origin.x = 0
-        UIView.animateWithDuration(duration, delay:0, usingSpringWithDamping:1.0, initialSpringVelocity:1.0, options:UIViewAnimationOptions.AllowUserInteraction,animations:{
+        UIView.animate(withDuration: duration, delay:0, usingSpringWithDamping:1.0, initialSpringVelocity:1.0, options:UIViewAnimationOptions.allowUserInteraction,animations:{
                 self.centerNavigationController.view.frame = c
             },completion: { (finished: Bool) -> Void in
     
@@ -100,11 +100,11 @@ class LeftRightMenuRootViewController: UIViewController, UIGestureRecognizerDele
         centerNavigationController.view.addGestureRecognizer(pan)
         
         var c = self.centerNavigationController.view.frame
-        let duration   = NSTimeInterval((CenterViewOffset - c.origin.x) / CenterViewOffset * 0.45)
+        let duration   = TimeInterval((CenterViewOffset - c.origin.x) / CenterViewOffset * 0.45)
         
         c.origin.x = CenterViewOffset
         
-        UIView.animateWithDuration(duration, delay:0, usingSpringWithDamping:0.9, initialSpringVelocity:1.0, options:UIViewAnimationOptions.AllowUserInteraction,animations:{
+        UIView.animate(withDuration: duration, delay:0, usingSpringWithDamping:0.9, initialSpringVelocity:1.0, options:UIViewAnimationOptions.allowUserInteraction,animations:{
             self.centerNavigationController.view.frame = c ;
             },completion: { (finished: Bool) -> Void in
                 
@@ -123,7 +123,7 @@ class LeftRightMenuRootViewController: UIViewController, UIGestureRecognizerDele
         }
     }
     
-    func setCenterViewOffset(offset:CGFloat)
+    func setCenterViewOffset(_ offset:CGFloat)
     {
         if offset < 0 || offset > CenterViewOffset
         {
@@ -133,29 +133,29 @@ class LeftRightMenuRootViewController: UIViewController, UIGestureRecognizerDele
     }
 
     
-    func tapBtnClicked(sender: UIButton)
+    func tapBtnClicked(_ sender: UIButton)
     {
         closeLeftView()
     }
     
-    func pan(panGesture: UIPanGestureRecognizer)
+    func pan(_ panGesture: UIPanGestureRecognizer)
     {
-        let point = panGesture.translationInView(centerNavigationController.view)
+        let point = panGesture.translation(in: centerNavigationController.view)
         setCenterViewOffset(currentCenterViewOffset4Pan + point.x)
-        if pan.state == .Ended
+        if pan.state == .ended
         {
             closeLeftView()
         }
     }
     
     //MARK: - Gesture Delegate
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool
     {
         currentCenterViewOffset4Pan = centerNavigationController.view.frame.origin.x
         return true
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return true
     }
 }
