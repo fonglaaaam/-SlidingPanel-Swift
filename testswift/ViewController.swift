@@ -73,11 +73,11 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
             self.menuClicked()
             break
         case 1:
-            self.thirdNavControllerClicked()
-            self.menuClicked()
-            break
-        case 2:
             self.secondNavControllerClicked()
+            self.menuClicked()
+            break 
+        case 2:
+            self.thirdNavControllerClicked()
             self.menuClicked()
             break
         case 3:
